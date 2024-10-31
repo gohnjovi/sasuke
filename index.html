@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - Bryan's Café</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      background-color: #1c1c1c;
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: relative;
+      z-index: 10;
+    }
+
+    header nav {
+      background-color: rgba(74, 44, 42, 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      height: 50px;
+    }
+
+    
+
+    .menu-toggle {
+      display: none;
+      background-color: rgba(74, 44, 42, 0.9);
+      color: white;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      height: 50px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #f1f1f1;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .banner {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 50px 20px;
+      text-align: center;
+      color: white;
+    }
+
+    .banner h1 {
+      font-size: 2.5rem;
+    }
+
+    .banner p {
+      font-size: 1.2rem;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+
+    .about,
+    .history {
+      background-color: rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 0;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .about {
+      flex-direction: row-reverse;
+    }
+
+    .about img,
+    .history img {
+      width: 300px;
+      border-radius: 8px;
+    }
+
+    .text-content {
+      flex: 1;
+      color: black;
+    }
+
+    footer {
+      background-color: rgba(74, 44, 42, 0.9);
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        width: 100px;
+        height: 100px;
+      }
+
+      .about, .history {
+      flex-direction: column;   
+      align-items: flex-start; 
+    }
+
+    .about img,
+    .history img {
+      width: 100%; 
+      max-width: 300px; 
+      margin-bottom: 15px; 
+    }
+
+    .text-content {
+      width: 100%; 
+    }
+
+
+      .menu-toggle {
+        display: block;
+        margin-left: auto;
+        z-index: 15;
+      }
+
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 200px;
+        background-color: rgba(74, 44, 42, 0.9);
+        padding: 40px 0;
+        border-radius: 0 0 50px 50px;
+        z-index: 5;
+        gap: 30px;
+        list-style: none;
+        height: auto;
+        align-items: center;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .banner h1 {
+        font-size: 2rem;
+      }
+
+      .banner p {
+        font-size: 1rem;
+        word-wrap: break-word;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <a href="index.html"><img src="images/logo.png" alt="Bryan's Café Logo" class="logo"></a>
+      <button class="menu-toggle">☰</button>
+      <ul>
+        <li><a href="index.html">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="banner">
+    <h1>Welcome to Bryan's Café</h1>
+    <p>The finest coffee, friendly atmosphere, and gourmet meals just for you!</p>
+  </section>
+
+  <main>
+    <section class="about">
+      <img src="images/pp.jpeg" alt="About Bryan's Café">
+      <div class="text-content">
+        <h2>About Us</h2>
+        <p>At Bryan's Café, we pride ourselves on offering high-quality coffee, delicious food, and a welcoming space for all. Whether you're here for a quick morning espresso, an afternoon sandwich, or a weekend brunch, we guarantee a cozy and satisfying experience.</p>
+        <p>Our team is passionate about sustainability and sources coffee beans from ethical suppliers. We also offer a variety of vegan, gluten-free, and dairy-free options to accommodate all dietary preferences.</p>
+      </div>
+    </section>
+
+    <section class="history">
+      <img src="images/history.jpg" alt="Café History">
+      <div class="text-content">
+        <h2>Our History</h2>
+        <p>Founded in 2005 in the heart of the community, Bryan's Café started as a modest coffee stand with a dream of creating a space where people could come together, relax, and enjoy the art of coffee-making.</p>
+        <p>Over the years, we’ve grown into a beloved neighborhood café, known not just for our top-notch brews but also for the friendships and stories shared within our walls. Our secret to success? Staying true to our roots and valuing every customer as part of our extended family.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Bryan's Café - <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const menuToggle = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('nav ul');
+      const navLinks = document.querySelectorAll('nav ul li a');
+
+      menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+      });
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('active'); // Cierra el menú al seleccionar una opción
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

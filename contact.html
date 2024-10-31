@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Bryan's Café</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("2BzDQvvThzaS1tYtf");
+    })();
+  </script>
+  <style>
+    .menu-toggle {
+      display: none;
+      background-color: rgba(74, 44, 42, 0.9);
+      color: white;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      height: 50px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #f1f1f1;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .menu-button {
+      display: none;
+      font-size: 20px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: white;
+    }
+
+    .branch-info {
+      background-color: rgba(255, 255, 255, 0.8);
+      text-align: left;
+      border-radius: 10px;
+      margin: 10px 0;
+      padding: 50px 20px;
+      color: black;
+      text-shadow: #1c1c1c;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    iframe {
+      display: none;
+      width: 100%;
+      height: 200px;
+      border: none;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        width: 100px;
+        height: 100px;
+      }
+
+      .menu-button {
+        display: block;
+      }
+
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 200px;
+        background-color: rgba(74, 44, 42, 0.9);
+        padding: 40px 0;
+        border-radius: 0 0 50px 50px;
+        z-index: 5;
+        gap: 30px;
+        list-style: none;
+        height: auto;
+        align-items: center;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 0;
+        text-align: center;
+      }
+
+      .banner {
+        font-size: 1 rem;
+        padding: 50px 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <a href="index.html"><img src="images/logo.png" alt="Bryan's Café Logo" class="logo"></a>
+      <button class="menu-button" onclick="toggleMenu()">☰</button>
+      <ul id="nav-list">
+        <li><a href="index.html">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="banner">
+    Get in touch with us!
+  </section>
+
+  <main>
+    <div class="contact-container">
+      <form id="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <input type="text" name="subject" placeholder="Subject" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send</button>
+      </form>
+
+      <div id="branches-container"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Bryan's Café - <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const navList = document.getElementById('nav-list');
+      navList.classList.toggle('active');
+    }
+
+    function toggleMap(mapId) {
+      const map = document.getElementById(mapId);
+      map.style.display = map.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function sendEmail(event) {
+      event.preventDefault();
+      const form = event.target;
+
+      emailjs.sendForm('Ahrex', 'template_hlzmyac', form)
+        .then(() => {
+          alert('Message sent, thank you for reaching out.');
+          location.reload();
+        })
+        .catch(error => {
+          alert('Error sending email: ' + JSON.stringify(error));
+        });
+    }
+
+    function loadBranches() {
+      fetch('xml/branches.xml')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Failed to load XML: ${response.status} ${response.statusText}`);
+          }
+          return response.text();
+        })
+        .then(xmlText => {
+          const parser = new DOMParser();
+          const xml = parser.parseFromString(xmlText, 'application/xml');
+
+          const branches = xml.getElementsByTagName('branch');
+          const branchesContainer = document.getElementById('branches-container');
+
+          Array.from(branches).forEach(branch => {
+            const address = branch.getElementsByTagName('address')[0].textContent;
+            const phone = branch.getElementsByTagName('phone')[0].textContent;
+            const hours = branch.getElementsByTagName('hours')[0].textContent;
+            const mapId = `map${branch.getElementsByTagName('id')[0].textContent}`;
+
+            const branchDiv = document.createElement('div');
+            branchDiv.classList.add('branch');
+
+            branchDiv.innerHTML = `
+              <div class="branch-info">
+                <p><strong>${address}</strong></p>
+                <p>Phone: ${phone}</p>
+                <p>Opening Hours: ${hours}</p>
+                <button onclick="toggleMap('${mapId}')">Show Map</button>
+                <iframe id="${mapId}" src="${branch.getElementsByTagName('map_url')[0].textContent}"></iframe>
+              </div>
+            `;
+
+            branchesContainer.appendChild(branchDiv);
+          });
+        })
+        .catch(error => {
+          console.error('Error loading branches:', error);
+        });
+    }
+
+    window.onload = () => {
+      document.getElementById('contact-form').addEventListener('submit', sendEmail);
+      loadBranches();
+    };
+  </script>
+</body>
+
+</html>

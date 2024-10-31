@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - Bryan's Café</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    
+    .menu-toggle {
+      display: none;
+      background-color: rgba(74, 44, 42, 0.9);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+    }
+    main {
+      flex-grow: 1;
+      padding: 30px;
+      display: block;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .privacy-container {
+      background-color: rgba(255, 255, 255, 0.525);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 0;
+      padding: 0px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      
+    }
+
+    .text-box {
+      background-color: rgba(255, 255, 255, 0.721);
+      padding: 10px;
+      border-radius: 8px;
+      width: 100%;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      background-color: rgba(74, 44, 42, 0.9);
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        height: 70px;
+      }
+
+      .menu-toggle {
+        display: block;
+        margin-left: auto;
+        z-index: 15;
+      }
+
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 200px;
+        background-color: rgba(74, 44, 42, 0.9);
+        padding: 40px 0;
+        border-radius: 0 0 50px 50px;
+        z-index: 5;
+        gap: 30px;
+        list-style: none;
+        height: auto;
+        align-items: center;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .text-box {
+        font-size: 0.8rem;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <a href="index.html"><img src="images/logo.png" alt="Bryan's Café Logo" class="logo"></a>
+      <button class="menu-toggle">☰</button>
+      <ul>
+        <li><a href="index.html">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="privacy-container">
+    <section>
+      <div class="text-box">
+        <h1>Privacy Policy</h1>
+        <p>Your privacy is important to us. This privacy policy explains how we collect, use, and protect your
+          information when you visit our website.</p>
+      </div>
+
+      <div class="text-box">
+        <h2>Information We Collect</h2>
+        <p>We may collect personal information that you provide when you use our services, including your name, email
+          address, and any other information you provide voluntarily.</p>
+      </div>
+
+      <div class="text-box">
+        <h2>How We Use Your Information</h2>
+        <p>Your information may be used to:</p>
+        <ul>
+          <li>Provide you with services and support</li>
+          <li>Improve our website and services</li>
+          <li>Send you updates and promotional materials</li>
+        </ul>
+      </div>
+
+      <div class="text-box">
+        <h2>Data Protection</h2>
+        <p>We take appropriate measures to protect your personal information from unauthorized access, use, or
+          disclosure.</p>
+      </div>
+
+      <div class="text-box">
+        <h2>Changes to This Privacy Policy</h2>
+        <p>We may update this privacy policy from time to time. We will notify you of any changes by posting the new
+          privacy policy on this page.</p>
+      </div>
+
+      <div class="text-box">
+        <h2>Contact Us</h2>
+        <p>If you have any questions about this privacy policy, please contact us at <a href="contact.html">Contact
+            Us</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Bryan's Café - <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const menuToggle = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('nav ul');
+
+      menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+
+</html>

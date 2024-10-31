@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu - Bryan's Café</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .menu-toggle {
+      display: none;
+      background-color: rgba(74, 44, 42, 0.9);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      height: 50px;
+      align-items: center;
+    }
+
+    nav a {
+      color: #f1f1f1;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      flex-grow: 1;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .menu-item {
+      width: 80%;
+      max-width: 800px;
+      margin: 10px auto;
+      padding: 15px;
+      background-color: rgba(74, 44, 42, 0.9);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+      border: 1px solid #444;
+    }
+
+    .menu-text {
+      flex: 1;
+      padding: 0 15px;
+      text-align: left;
+      color: white;
+      text-shadow: 1px 1px 4px black;
+    }
+
+    .menu-item img {
+      width: 200px;
+      border-radius: 5px;
+      flex-shrink: 0;
+    }
+
+    .food .menu-text {
+      order: 1;
+    }
+
+    .food img {
+      order: 2;
+    }
+
+    .drink img {
+      order: 1;
+    }
+
+    .drink .menu-text {
+      order: 2;
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        width: 100px;
+        height: 100px;
+      }
+
+      .menu-item img {
+        width: 150px;
+      }
+
+      .menu-toggle {
+        display: block;
+        margin-left: auto;
+        z-index: 5;
+      }
+
+      nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        width: 200px;
+        background-color: rgba(74, 44, 42, 0.9);
+        padding: 40px 0;
+        border-radius: 0 0 50px 50px;
+        z-index: 5;
+        gap: 30px;
+        list-style: none;
+        height: auto;
+        align-items: center;
+      }
+
+      nav.active ul {
+        display: flex;
+      }
+
+      nav ul li {
+        margin: 0;
+        text-align: center;
+      }
+    }
+
+    footer {
+      background-color: rgba(74, 44, 42, 0.9);
+      color: white;
+      text-align: center;
+      padding: 1px;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <a href="index.html"><img src="images/logo.png" alt="Bryan's Café Logo" class="logo"></a>
+      <button class="menu-toggle">☰</button>
+      <ul>
+        <li><a href="index.html">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2 class="menu-title" style="color: white; text-shadow: 1px 1px 4px black;">Menu</h2>
+    <p class="menu-subtitle" style="color: white; text-shadow: 1px 1px 4px black;">
+      Delicious food and premium coffee to satisfy your cravings!
+    </p>
+    <div class="menu-section"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Bryan's Café - <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch ('xml/menu.xml')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Failed to load XML: ${response.status} ${response.statusText}`);
+          }
+          return response.text();
+        })
+        .then(xmlText => {
+          const parser = new DOMParser();
+          const xml = parser.parseFromString(xmlText, 'application/xml');
+
+          const parseError = xml.querySelector('parsererror');
+          if (parseError) {
+            throw new Error('Error parsing XML: ' + parseError.textContent);
+          }
+
+          const menuItems = xml.getElementsByTagName('item');
+          const menuSection = document.querySelector('.menu-section');
+
+          Array.from(menuItems).forEach(item => {
+            const name = item.getElementsByTagName('name')[0].textContent;
+            const description = item.getElementsByTagName('description')[0].textContent;
+            const price = item.getElementsByTagName('price')[0].textContent;
+            const image = item.getElementsByTagName('image')[0].textContent;
+
+            const category = name.toLowerCase().includes('latte') ||
+              name.toLowerCase().includes('cappuccino') ||
+              name.toLowerCase().includes('orange juice') ||
+              name.toLowerCase().includes('green tea') ? 'drink' : 'food';
+
+            const menuItem = document.createElement('div');
+            menuItem.classList.add('menu-item', category);
+
+            menuItem.innerHTML = `
+              <img src="${image}" alt="${name}">
+              <div class="menu-text">
+                <p>${name} - $${price}</p>
+                <p class="menu-description">${description}</p>
+              </div>
+            `;
+
+            menuSection.appendChild(menuItem);
+          });
+        })
+        .catch(error => {
+          console.error('Error loading the menu:', error);
+        });
+
+      const menuToggle = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('nav');
+
+      menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('active');
+      });
+
+      // Close the menu when clicking on a link
+      const navLinks = document.querySelectorAll('nav ul li a');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          nav.classList.remove('active');
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>
